@@ -1,0 +1,40 @@
+# --- specifies its a yml file
+---
+name: Checks
+
+# trigger. Github Actions will run on push - when we do git commit, checks.yml file will automatically perform tests
+on: [push]
+
+#specify jobs to run by github actions, called test-lint (its an id for the jobs, which may be ref. somewhere in the github actions)
+jobs:
+  # define id for job
+  test-lint:
+
+    name: Test and Line
+
+    # runner is OS that the job runs on
+    runs-on: ubuntu-20.04
+
+    # steps = different things that run for the job
+    steps:
+
+      # STEP 1: Log into Docker Hub
+      - name: Login to Docker Hub      # define the name for this step
+        uses: docker/login-action@v1   # uses lets us use another action in the github action repository. Github actions let's us make our own actions or re-use existing actions for particular jobs
+        with:                                            # passing in parameters into docker/login-action
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN  }}
+
+      # STEP 2: Checkout code (step executed when docker/login-action step is successful...)
+      # checkout done so code is available to perform next steps
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # STEP 3: Specify tests to run by Github Actions
+      # command used for running unit tests on project
+      - name: Test
+        run: docker-compose run --rm app sh -c "python manage.py test"
+
+      # command used for running lint tests on project
+      - name: Lint
+        run: docker-compose run --rm app sh -c "flake8"
