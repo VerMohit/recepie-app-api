@@ -1,0 +1,17 @@
+# List all things that we want to exlcude from docker container
+
+# Git
+.git          #hidden file in git
+.gitignore
+
+# Docker
+.docker       #docker hidden file created by docker, used on local machine that we don't want to have included
+
+# Python
+app/__pycache__/
+app/*/__pycache__/
+app/*/*/__pycache__/
+app/*/*/*/__pycache__/
+.env/
+.venv/
+venv/
