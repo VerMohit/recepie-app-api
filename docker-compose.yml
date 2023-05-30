@@ -1,0 +1,27 @@
+# Specify version of docker compose syntax used.
+# If they come out with new versions then it wouldn't break our specific version
+version: "3.9"
+
+# Main block for docker compose file
+# Can have many services needed for application
+services:
+  # Name of service that will run the docker file
+  app:
+    # build docker file in the current directory (ie. context: .)"
+    build:
+      context: .
+      # When docker-compose is used, set build arg called DEV to true
+      args:
+        - DEV=true
+    # Maps port 8000 on local machine to port 8000 of docker container. This lets us access network when connecting to server
+    ports:
+      - "8000:8000"
+    # Map dir from system to docker container
+    # we are mapping the app dir created in project (./app) to /app in the container
+    # done b/c want updates to local project code to be reflected in running contain in real time (project code auto syncs to code in container)
+    volumes:
+      - ./app:/app
+    # Command used to run the service
+    # we can override the command, using "docker-compose ..."; however, if we don't then the command that executes is the this one below by default
+    command: >
+      sh -c "python manage.py runserver 0.0.0.0:8000"
