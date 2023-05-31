@@ -25,3 +25,26 @@ services:
     # we can override the command, using "docker-compose ..."; however, if we don't then the command that executes is the this one below by default
     command: >
       sh -c "python manage.py runserver 0.0.0.0:8000"
+    # Tell how the app should use the db values
+    environment:
+      - DB_HOST=db
+      - DB_NAME=devdb
+      - DB_USER=devuser
+      - DB_PASS=changeme
+    # Tells docker -compose that the app depends on the DB and that the DB should be running first before the app runs
+    depends_on:
+      - db
+
+  db:
+    image: postgres:13-alpine
+    volumes:
+      - dev-db-data:/var/lib/postgresql/data
+    # set initial db confid for new db service. When db first starts creates named db called devdb, a user named devuser and password, changeme
+    # NOTE: this is for the local development DB
+    environment:
+      - POSTGRES_DB=devdb
+      - POSTGRES_USER=devuser
+      - POSTGRES_PASSWORD=changeme
+
+volumes:
+  dev-db-data:
