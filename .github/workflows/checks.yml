@@ -33,7 +33,7 @@ jobs:
       # STEP 3: Specify tests to run by Github Actions
       # command used for running unit tests on project
       - name: Test
-        run: docker-compose run --rm app sh -c "python manage.py test"
+        run: docker-compose run --rm app sh -c "python manage.py wait_for_db && python manage.py test"
 
       # command used for running lint tests on project
       - name: Lint
