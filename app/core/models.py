@@ -12,6 +12,10 @@ class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_field):
         """Create, save and return a new user"""
 
+        # Check to see if email is empty. If so, raise ValueError
+        if not email:
+            raise ValueError('User must have an email address...')
+
         # self.model() references the User table and this creates a new user model
         user = self.model(email=self.normalize_email(email), **extra_field)
         # Takes password and encrypts it using a hashing mechanism - security
