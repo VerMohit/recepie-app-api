@@ -13,7 +13,7 @@ class UserManager(BaseUserManager):
         """Create, save and return a new user"""
 
         # self.model() references the User table and this creates a new user model
-        user = self.model(email=email, **extra_field)
+        user = self.model(email=self.normalize_email(email), **extra_field)
         # Takes password and encrypts it using a hashing mechanism - security
         user.set_password(password)
         # saves user model. self._db supports adding mutliple DBs to proejct, BEST PRACTICE to pass this!
