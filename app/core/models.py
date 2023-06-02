@@ -1,5 +1,5 @@
 """
-Database models for the proejct
+Database models for the project
 """
 from django.db import models
 from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager, PermissionsMixin)
@@ -21,6 +21,17 @@ class UserManager(BaseUserManager):
         # Takes password and encrypts it using a hashing mechanism - security
         user.set_password(password)
         # saves user model. self._db supports adding mutliple DBs to proejct, BEST PRACTICE to pass this!
+        user.save(using=self._db)
+
+        return user
+
+    def create_superuser(self, email, password):
+        """Create and return a new superuser"""
+        user = self.create_user(email, password)
+
+        user.is_staff = True
+        user.is_superuser = True
+
         user.save(using=self._db)
 
         return user
