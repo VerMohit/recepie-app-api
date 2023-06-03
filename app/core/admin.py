@@ -20,6 +20,7 @@ class UserAdmin(BaseUserAdmin):
     # display user email and name in the list display
     list_display = ['email', 'name']
 
+    # These fields were tested against the test_edit_user_page
     fieldsets = (
         ('INSERT TITLE FOR HEADING HERE!!', {'fields': ('email', 'password')}),
         (
@@ -35,6 +36,22 @@ class UserAdmin(BaseUserAdmin):
         (_('Important dates'), {'fields': ('last_login',)}),
     )
     readonly_fields = ['last_login']
+
+    # These fields were tested against the test_create_user_page
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide', ),  # assigns custom CSS classes in the admin
+            'fields': (
+                'email',
+                'password1',
+                'password2',
+                'name',
+                'is_active',
+                'is_staff',
+                'is_superuser',
+            )
+        }),
+    )
 
 
 # Register custom user model. Specify UserAdmin to use custom admin
