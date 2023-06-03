@@ -21,15 +21,15 @@ class UserAdmin(BaseUserAdmin):
     list_display = ['email', 'name']
 
     fieldsets = (
-        (None, {'fields': ('email', 'password')}),
+        ('INSERT TITLE FOR HEADING HERE!!', {'fields': ('email', 'password')}),
         (
             _('Permissions'),
             {
-                'fields': {
+                'fields': (
                     'is_active',
                     'is_staff',
-                    'is_superuser'
-                }
+                    'is_superuser',
+                )
             }
         ),
         (_('Important dates'), {'fields': ('last_login',)}),
