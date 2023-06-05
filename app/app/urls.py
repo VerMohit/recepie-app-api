@@ -15,7 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from drf_spectacular.views import (SpectacularAPIView, SpectacularSwaggerView)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # Add url to project using the SpectacularAPIView to generate scehma file (YAML) for project
+    path('api/schema/', SpectacularAPIView.as_view(), name='api-schema'),
+    # Add url to schema to generate GUI for API doc
+    path('api/docs/', SpectacularSwaggerView.as_view(url_name='api-schema'), name='api-docs'),
 ]
